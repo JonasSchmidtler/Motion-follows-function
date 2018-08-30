@@ -1,7 +1,9 @@
 library(ggplot2)
 library(tidyr)
 library(dplyr)
+library(reshape2)
 library(gridExtra)
+library(ez)
 
 ####Working Directory different for Apple and Windows!!!#####
 #############################################################
@@ -31,10 +33,17 @@ names(dataset)
     
     #rename certain columns
     names(dataset)[names(dataset) == "ERR"] <- "ExperienceWithRealRobots"
+    
+    
+    
+    #new dataset movement cues
+    dataset_MC <- select(dataset, Participant_Code, D.Worked:LT.Variant)
+    
+    
 
 
-#convert wide format in long format
-#dataset_long <- gather(dataset, "Measurement","Value", i.G.I:LT.Desired, factor_key=TRUE)
+    #convert wide format in long format
+    #dataset_long <- gather(dataset, "Measurement","Value", i.G.I:LT.Desired, factor_key=TRUE)
 
 
 
@@ -161,5 +170,7 @@ BR_G_V_histo <- ggplot(data = BR_G, aes(BR_G$BR.G.V.)) +
 
 
 grid.arrange(i_G_I_histo, BR_G_I_histo, i_G_II_histo, BR_G_II_histo, i_G_III_histo, BR_G_III_histo, i_G_IV_histo, BR_G_IV_histo, i_G_V_histo, BR_G_V_histo, ncol=2)
+#ggsave("Histogram_initial_vs_BEAM.pdf")
+
 
 
