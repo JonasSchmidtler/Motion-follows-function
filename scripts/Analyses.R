@@ -4,6 +4,7 @@ library(dplyr)
 library(reshape2)
 library(gridExtra)
 library(ez)
+library(tibble)
 
 ####Working Directory different for Apple and Windows!!!#####
 #############################################################
@@ -30,39 +31,32 @@ names(dataset)
     dataset <- select(dataset, -LT.Time_i_Sex, LT.Time_i_or_f, -LT.PLeg.1:-LT.PLeg.2, -LT.G.V.1:-LT.G.I.5)
     dataset <- select(dataset, -BR.G.I.1:-BR.Comfort)
     dataset <- select(dataset, -So_Be:-Li_Bl, -Oth)
+    dataset <- select(dataset, -L.Seen)
     
     #rename certain columns
     names(dataset)[names(dataset) == "ERR"] <- "ExperienceWithRealRobots"
-    
-    
-    
+    names(dataset)[names(dataset) == "LT.Time_i_or_f"] <- "LT.Time_f_Dec"
+  
     #new dataset movement cues
-    dataset_MC <- select(dataset, Participant_Code, D.Worked:LT.Variant)
+    dataset_D <- select(dataset, Participant_Code, D.FD:D.Variant)
+    dataset_D <- add_column(dataset_D, MovementCue = "D", .after = "Participant_Code")
+    dataset_S <- select(dataset, Participant_Code, S.FD:S.Variant)
+    dataset_S <- add_column(dataset_S, MovementCue = "S", .after = "Participant_Code")
+    dataset_L <- select(dataset, Participant_Code, L.FD:L.Variant)
+    dataset_L <- add_column(dataset_L, MovementCue = "L", .after = "Participant_Code")
+    dataset_E <- select(dataset, Participant_Code, E.FD:E.Variant)
+    dataset_E <- add_column(dataset_E, MovementCue = "E", .after = "Participant_Code")
+    dataset_LT <- select(dataset, Participant_Code, LT.FD:LT.Variant)
+    dataset_LT <- add_column(dataset_LT, MovementCue = "LT", .after = "Participant_Code")
     
+    colnames(dataset_D) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
+    colnames(dataset_S) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
+    colnames(dataset_L) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
+    colnames(dataset_E) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
+    colnames(dataset_LT) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
     
-
-
-    #convert wide format in long format
-    #dataset_long <- gather(dataset, "Measurement","Value", i.G.I:LT.Desired, factor_key=TRUE)
-
-
-
-#qplot(x = MC_Order, data = dataset,
-#      color = I('black'), fill = I('#000099'))
-
-#intial_stop <- subset(dataset, MC_Order)
-    
-    #subsetting using dplyr
-    #dataset_new <- dataset %>%
-    #                 filter(group =="XXX") %>%
-    #                 filter(XX<100)
-
-#by(dataset$variable1, dataset$variable2, summary)
-
-
-#qplot(x=price/carat, data = diamonds)+
-#  facet_wrap(~cut)
-
+    dataset_MC_long <- rbind(dataset_D, dataset_S, dataset_L, dataset_E, dataset_LT)
+     
 ####Histograms####
 
 
@@ -172,5 +166,8 @@ BR_G_V_histo <- ggplot(data = BR_G, aes(BR_G$BR.G.V.)) +
 grid.arrange(i_G_I_histo, BR_G_I_histo, i_G_II_histo, BR_G_II_histo, i_G_III_histo, BR_G_III_histo, i_G_IV_histo, BR_G_IV_histo, i_G_V_histo, BR_G_V_histo, ncol=2)
 #ggsave("Histogram_initial_vs_BEAM.pdf")
 
+#####Movement Cues####
+
+#by(dataset$variable1, dataset$variable2, summary)
 
 
