@@ -10,7 +10,7 @@ library(gridExtra)
 
 glossary <- read.csv('Glossary.csv', sep=";")
 dataset <- read.csv('Main_Stud_ORG (csv).csv', header=TRUE, sep=";")
-names(dataset)
+#names(dataset)
 
 ####DATASET WRANGLING####
 
