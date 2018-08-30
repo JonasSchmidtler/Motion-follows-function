@@ -1,0 +1,82 @@
+﻿MC;Movement Cue
+W;Workshop
+W Language;Language in which the workshop was carried out
+N;Native
+HCLE;Highest completed level of education
+ERR;Experience with robots in reality
+G;Godspeed, where 1 is the minimum value and 5 the maximum value for the mentioned characteristic 
+MC_DWV Leg.;Where 0 means unsure and 10 totally sure
+MC_DWV Pred.;Where 0 means unsure and 10 totally sure
+D;MC Dodge
+S;MC Stop
+L;MC Back-off-Linear
+E;MC Back-off-Evade
+O;MC Other (Designed movement)
+MC Time_i;"i=initial (first time the MC was launched). Time since the word ""go"" is said until the participant puts one foot in B"
+MC Time_f;"f=final (last time the MC was launched).  Time since the word ""go"" is said until the participant puts one foot in B"
+HL;Humanlike
+ML;Machinelike
+Lon;Longer
+Sho;Shorter
+Q_D;Questionnaire demographics pg.1-2
+Q_DVW;Questionnaire Door With Visibility pg.3
+Q_FD;Questionnaire free design pg.4
+Q_LC;Questionnaire legible cue pg.5-7
+Q_LT_LT;Questionnaire legible cue long-term pg.8
+Other MC;Answer to QS 10: Can you think of any other movement to solve the situation CWOV?
+Q_BR;Questionnaire Beam Robot pg.9
+Q_O;Questionnaire other robot functionalities pg.10
+y;yes
+n;no
+So;Sound
+Di;Display
+Mo;Movement
+Li;Light
+PCE;Primary Compulsory Education
+SCE;Secondary Compulsory Education
+HSE;Higher Secondary Education (abitur)
+UEng;University: Engineering
+UNS;University: Natural Science
+UEco;University: Economics
+UArt;University: Arts
+Oth;HCLE Other
+Ind;Industrial Robot
+SC;Science Fiction Robot
+Int.;Intention
+Leg.;Legible
+Pred.;Predictable
+QS 1;What did the robot do?
+QS 2&3;Why did it do that? What was its intention?
+Unk;Unknown
+BR;Beam Robot
+Code MC Dodge;1
+Code MC Stop;2
+Code MC Back-Off-Linear;3
+Code MC Back-Off-Evade;4
+;
+Nationalities:;
+DE;Germany
+CN;China
+IR;
+ES;Spain
+CZ;Chec Republic
+SY;Syria
+IT;Italy
+CM;Cameroon
+HG;
+CR;Croatia
+;
+;
+;
+;
+Languages:;
+DT;German
+ZH;Chinese
+IR;
+ES;Spanish
+CZ;Chec
+AR;
+IT;Italian
+FR;French
+HG;
+CR;Croatian
