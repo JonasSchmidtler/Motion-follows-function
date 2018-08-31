@@ -50,15 +50,16 @@ names(dataset)
     dataset_LT <- select(dataset, Participant_Code, LT.FD:LT.Variant)
     dataset_LT <- add_column(dataset_LT, MovementCue = 5, .after = "Participant_Code")
     
-    colnames(dataset_D) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
-    colnames(dataset_S) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
-    colnames(dataset_L) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
-    colnames(dataset_E) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
-    colnames(dataset_LT) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived Safety", "adequacy", "chosen variant")
+    colnames(dataset_D) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived_Safety", "adequacy", "chosen_variant")
+    colnames(dataset_S) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived_Safety", "adequacy", "chosen_variant")
+    colnames(dataset_L) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived_Safety", "adequacy", "chosen_variant")
+    colnames(dataset_E) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived_Safety", "adequacy", "chosen_variant")
+    colnames(dataset_LT) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived_Safety", "adequacy", "chosen_variant")
     
     dataset_MC_long <- rbind(dataset_D, dataset_S, dataset_L, dataset_E, dataset_LT)
     dataset_MC_long$MovementCue <- factor(dataset_MC_long$MovementCue, levels=c(1,2,3,4,5), labels = c("Dodge", "Stop", "Linear", "Evade", "LongTerm"))
-     
+    dataset_MC_long$chosen_variant <- factor(dataset_MC_long$chosen_variant, levels=c(0, 1, 2), labels = c("intial", "human_like", "machine_like")) 
+    
 ####Histograms####
 
 
@@ -176,7 +177,7 @@ D_G_I_histo <- ggplot(data = dataset, aes(dataset$D.G.I)) +
   geom_histogram(binwidth=0.2, aes(fill=..count..), color="white") +
   scale_x_continuous(limits = c(1, 5) ) +
   scale_fill_gradient("Count", low = "#c6cec9", high = "#191919") + 
-  labs(title ="Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
+  labs(title ="Dodge-Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
   guides(fill=FALSE) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
@@ -185,7 +186,7 @@ S_G_I_histo <- ggplot(data = dataset, aes(dataset$S.G.I)) +
   geom_histogram(binwidth=0.2, aes(fill=..count..), color="white") +
   scale_x_continuous(limits = c(1, 5) ) +
   scale_fill_gradient("Count", low = "#c6cec9", high = "#191919") + 
-  labs(title ="Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
+  labs(title ="Stop-Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
   guides(fill=FALSE) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
@@ -194,7 +195,7 @@ L_G_I_histo <- ggplot(data = dataset, aes(dataset$L.G.I)) +
   geom_histogram(binwidth=0.2, aes(fill=..count..), color="white") +
   scale_x_continuous(limits = c(1, 5) ) +
   scale_fill_gradient("Count", low = "#c6cec9", high = "#191919") + 
-  labs(title ="Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
+  labs(title ="Linear-Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
   guides(fill=FALSE) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
@@ -203,7 +204,7 @@ E_G_I_histo <- ggplot(data = dataset, aes(dataset$E.G.I)) +
   geom_histogram(binwidth=0.2, aes(fill=..count..), color="white") +
   scale_x_continuous(limits = c(1, 5) ) +
   scale_fill_gradient("Count", low = "#c6cec9", high = "#191919") + 
-  labs(title ="Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
+  labs(title ="Evade-Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
   guides(fill=FALSE) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
@@ -212,18 +213,20 @@ LT_G_I_histo <- ggplot(data = dataset, aes(dataset$LT.G.I)) +
   geom_histogram(binwidth=0.2, aes(fill=..count..), color="white") +
   scale_x_continuous(limits = c(1, 5) ) +
   scale_fill_gradient("Count", low = "#c6cec9", high = "#191919") + 
-  labs(title ="Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
+  labs(title ="LongTerm-Anthropomorphism", x="fake|machinelike|unconscious|artificial|moving rigidly [1] - natural|humanlike|conscious|lifelike|moving elegantly [5]") + 
   guides(fill=FALSE) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
-grid.arrange(D_G_I_histo, S_G_I_histo, L_G_I_histo, E_G_I_histo, L_G_I_histo, ncol=1)
+grid.arrange(D_G_I_histo, S_G_I_histo, L_G_I_histo, E_G_I_histo, LT_G_I_histo, ncol=1)
 
 
 
 #by(dataset$variable1, dataset$variable2, summary)
 
     ####ANOVA Movement Cues####
+    #Check if everything is balanced
+    ezDesign(data=dataset_MC_long, x=MovementCue, y=Participant)
 
     ####Anthropomorphism
     dataset_MC_long_GI_naomit <- subset(dataset_MC_long, !is.na(GI_Anthropomorphism))
@@ -231,5 +234,20 @@ grid.arrange(D_G_I_histo, S_G_I_histo, L_G_I_histo, E_G_I_histo, L_G_I_histo, nc
     anova_stats(ANOVA_Anthropomorphism)
     eta_sq(ANOVA_Anthropomorphism, partial = TRUE, ci.lvl = .95)
     omega_sq(ANOVA_Anthropomorphism, partial = TRUE, ci.lvl = .95)
+   
+
+    ####Likability
+    dataset_MC_long_GIII_naomit <- subset(dataset_MC_long, !is.na(GIII_Likeability))
+    ANOVA_Likeability <- aov(GIII_Likeability ~ MovementCue, data=dataset_MC_long_GIII_naomit)
+    anova_stats(ANOVA_Likeability)
+    eta_sq(ANOVA_Likeability, partial = TRUE, ci.lvl = .95)
+    omega_sq(ANOVA_Likeability, partial = TRUE, ci.lvl = .95)
+    
+    ####Perceived Safety
+    dataset_MC_long_GV_naomit <- subset(dataset_MC_long, !is.na(GV_Perceived_Safety))
+    ANOVA_GV_Perceived_Safety <- aov(GV_Perceived_Safety ~ MovementCue, data=dataset_MC_long_GV_naomit)
+    anova_stats(ANOVA_GV_Perceived_Safety )
+    eta_sq(ANOVA_GV_Perceived_Safety, partial = TRUE, ci.lvl = .95)
+    omega_sq(ANOVA_GV_Perceived_Safety, partial = TRUE, ci.lvl = .95)
     
     
