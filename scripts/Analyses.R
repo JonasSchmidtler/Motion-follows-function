@@ -6,6 +6,7 @@ library(gridExtra)
 library(ez)
 library(tibble)
 library(sjstats)
+library(Hmisc)
 
 ####Working Directory different for Apple and Windows!!!#####
 #############################################################
@@ -57,8 +58,12 @@ names(dataset)
     colnames(dataset_LT) <- c("Participant", "MovementCue", "FD","initial_time", "final_time", "observed perceivability", "observed legibility", "perceived legibility", "GI_Anthropomorphism", "GIII_Likeability", "GV_Perceived_Safety", "adequacy", "chosen_variant")
     
     dataset_MC_long <- rbind(dataset_D, dataset_S, dataset_L, dataset_E, dataset_LT)
+    
+    #adapt classes
+    dataset_MC_long$final_time <- as.numeric(as.character(dataset_MC_long$final_time))
     dataset_MC_long$MovementCue <- factor(dataset_MC_long$MovementCue, levels=c(1,2,3,4,5), labels = c("Dodge", "Stop", "Linear", "Evade", "LongTerm"))
     dataset_MC_long$chosen_variant <- factor(dataset_MC_long$chosen_variant, levels=c(0, 1, 2), labels = c("intial", "human_like", "machine_like")) 
+    
     
 ####Histograms####
 
@@ -250,4 +255,37 @@ grid.arrange(D_G_I_histo, S_G_I_histo, L_G_I_histo, E_G_I_histo, LT_G_I_histo, n
     eta_sq(ANOVA_GV_Perceived_Safety, partial = TRUE, ci.lvl = .95)
     omega_sq(ANOVA_GV_Perceived_Safety, partial = TRUE, ci.lvl = .95)
     
+    ####Initial time
+    dataset_MC_long_initial_time_naomit <- subset(dataset_MC_long, !is.na(initial_time))
+    ANOVA_initial_time <- aov(initial_time ~ MovementCue, data=dataset_MC_long_initial_time_naomit)
+    anova_stats(ANOVA_initial_time)
+    eta_sq(ANOVA_initial_time, partial = TRUE, ci.lvl = .95)
+    omega_sq(ANOVA_initial_time, partial = TRUE, ci.lvl = .95)
+    
+    ggplot(data=dataset_MC_long[which(dataset_MC_long$initial_time>0),], aes(x=MovementCue, y=initial_time)) +
+      labs(y="Initial Time [s]") +
+      geom_jitter(width=0.1) + 
+      geom_boxplot(alpha=0.6) +
+      scale_y_continuous(breaks = seq(0, 20, 1)) + 
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+            panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+      stat_summary(fun.y="mean", geom="point", shape=21, size=4, fill="grey") + 
+      stat_summary(fun.data = mean_cl_boot, linetype =2, geom = "errorbar")
+    
+    ####Final time
+    dataset_MC_long_final_time_naomit <- subset(dataset_MC_long, !is.na(final_time))
+    ANOVA_final_time <- aov(final_time ~ MovementCue, data=dataset_MC_long_final_time_naomit)
+    anova_stats(ANOVA_final_time)
+    eta_sq(ANOVA_final_time, partial = TRUE, ci.lvl = .95)
+    omega_sq(ANOVA_final_time, partial = TRUE, ci.lvl = .95)
+    
+    ggplot(data=dataset_MC_long[which(dataset_MC_long$final_time>0),], aes(x=MovementCue, y=final_time)) +
+      labs(y="Final Time [s]") +
+      geom_jitter(width=0.1) + 
+      geom_boxplot(alpha=0.6) +
+      scale_y_continuous(breaks = seq(0, 20, 1)) + 
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+            panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+      stat_summary(fun.y="mean", geom="point", shape=21, size=4, fill="grey") + 
+      stat_summary(fun.data = mean_cl_boot, linetype =2, geom = "errorbar")
     
