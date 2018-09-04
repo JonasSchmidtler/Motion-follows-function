@@ -262,15 +262,16 @@ grid.arrange(D_G_I_histo, S_G_I_histo, L_G_I_histo, E_G_I_histo, LT_G_I_histo, n
     eta_sq(ANOVA_initial_time, partial = TRUE, ci.lvl = .95)
     omega_sq(ANOVA_initial_time, partial = TRUE, ci.lvl = .95)
     
-    ggplot(data=dataset_MC_long[which(dataset_MC_long$initial_time>0),], aes(x=MovementCue, y=initial_time)) +
+    Initial_time_ggplot <- ggplot(data=dataset_MC_long[which(dataset_MC_long$initial_time>0),], aes(x=MovementCue, y=initial_time)) +
       labs(y="Initial Time [s]") +
-      geom_jitter(width=0.1) + 
+      geom_jitter(width=0.1, alpha = 0.5) + 
       geom_boxplot(alpha=0.6) +
-      scale_y_continuous(breaks = seq(0, 20, 1)) + 
+      scale_y_continuous(breaks = seq(0, 20, 1), limits = c(3, 18)) + 
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line = element_line(colour = "black")) +
-      stat_summary(fun.y="mean", geom="point", shape=21, size=4, fill="grey") + 
-      stat_summary(fun.data = mean_cl_boot, linetype =2, geom = "errorbar")
+      stat_summary(fun.y="mean", geom="point", shape=21, size=4, fill="#00008b", alpha = 0.5) + 
+      stat_summary(fun.data = mean_cl_boot, linetype =2, color = "#00008b", geom = "errorbar") +
+      stat_summary(fun.y = mean, geom = "line", color = "#00008b", aes(group="MovementCue"))
     
     ####Final time
     dataset_MC_long_final_time_naomit <- subset(dataset_MC_long, !is.na(final_time))
@@ -279,13 +280,16 @@ grid.arrange(D_G_I_histo, S_G_I_histo, L_G_I_histo, E_G_I_histo, LT_G_I_histo, n
     eta_sq(ANOVA_final_time, partial = TRUE, ci.lvl = .95)
     omega_sq(ANOVA_final_time, partial = TRUE, ci.lvl = .95)
     
-    ggplot(data=dataset_MC_long[which(dataset_MC_long$final_time>0),], aes(x=MovementCue, y=final_time)) +
+   Final_time_ggplot <- ggplot(data=dataset_MC_long[which(dataset_MC_long$final_time>0),], aes(x=MovementCue, y=final_time)) +
       labs(y="Final Time [s]") +
-      geom_jitter(width=0.1) + 
+      geom_jitter(width=0.1, alpha = 0.5) + 
       geom_boxplot(alpha=0.6) +
-      scale_y_continuous(breaks = seq(0, 20, 1)) + 
+      scale_y_continuous(breaks = seq(0, 20, 1), limits = c(3, 18)) + 
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line = element_line(colour = "black")) +
-      stat_summary(fun.y="mean", geom="point", shape=21, size=4, fill="grey") + 
-      stat_summary(fun.data = mean_cl_boot, linetype =2, geom = "errorbar")
+      stat_summary(fun.y="mean", geom="point", shape=21, size=4, fill="#00008b", alpha = 0.5) + 
+      stat_summary(fun.data = mean_cl_boot, linetype =2, color = "#00008b", geom = "errorbar") +
+      stat_summary(fun.y = mean, geom = "line", color = "#00008b", aes(group="MovementCue"))
+    
+    grid.arrange(Initial_time_ggplot, Final_time_ggplot, nrow=1)
     
